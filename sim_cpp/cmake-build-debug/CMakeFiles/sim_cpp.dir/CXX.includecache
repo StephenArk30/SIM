@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/sim_cpp/Lexer.cpp
+Lexer.h
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/sim_cpp/Lexer.h
+regex
+-
+iostream
+-
+sstream
+-
+map
+-
+
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/sim_cpp/Lexer.h
+fstream
+-
+string
+-
+map
+-
+keyword.h
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/sim_cpp/keyword.h
+
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/sim_cpp/keyword.h
+string
+-
+

@@ -5,55 +5,48 @@
 #include "keyword.h"
 #include <string>
 #include <cstring>
+#include <sstream>
 
 keyword::keyword() {
     keywords = new string[32];
     type = new int[32];
-    suffix = new string[6];
     int i;
-    /**
-     * 0. 后跟n个*,
-     * 1. 后跟{...
-     * 2. 后跟(...
-     * 3. 无
-     * 4. 后跟;
-     * */
      // 关键字
     std::string words[32] = {
-            "void", "char", "short", "int", "long", "float", "double", // 7
-            "else", "do", // 2
-            "if", "for", "while", "switch", "sizeof", // 5
-            "case", "default", "goto", "auto", "static", "extern", "register", "const", "volatile", "struct", "union", "enum", "typedef", "signed", "unsigned", // 15
-            "break", "continue", "return" // 3
+            "void", "char", "short", "int", "long", "float", "double", // 类型关键字 7
+            "volatile", "register", "extern", "signed", "unsigned", "static", "const", "auto", "break", "continue",
+            "return", // 修饰类型关键字 11
+            "else", "do", "if", "for", "while", "switch", "case", "default", "goto", // 控制关键字 9
+            "struct", "union", "enum", // 结构关键字 3
+            "typedef", // typedef
+            "sizeof", // sizeof
     };
     // 关键字对应类型
     int wordstype[32] = {
-            0,0,0,0,0, 0,0,
-            1,1,
-            2,2,2,2,2,
-            3,3,3,3,3, 3,3,3,3,3, 3,3,3,3,3,
-            4,4,4
+            0, 0, 0, 0, 0, 0, 0,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            2, 2, 2, 2, 2, 2, 2, 2, 2,
+            3, 3, 3,
+            4, 5
     };
     for(i = 0; i < 32; i++) {
         keywords[i] = words[i];
         type[i] = wordstype[i];
     }
-
-    // 关键字类型对应后缀
-    string wordssuffix[] = {
-            "\\**", // 1
-            "", // 1
-            "", // 1
-            "", // 1
-            ";", // 1
-            ";" // 1
-    };
-    for(i = 0; i < 6; i++)
-        suffix[i] = wordssuffix[i];
 }
 
 keyword::~keyword() {
     delete[] keywords;
     delete[] type;
-    delete[] suffix;
+}
+
+bool keyword::replacekeyword(string &unit) {
+    ostringstream kwstream;
+    for (int i = 0; i < 32; ++i) {
+        if (unit == keywords[i]) {
+            kwstream << "$1," << type[i] << "$";
+            unit = kwstream.str();
+            return true;
+        }
+    }
 }

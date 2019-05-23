@@ -9,11 +9,13 @@
 using namespace std;
 
 class keyword {
-public:
+private:
     string *keywords;
     int *type;
-    string *suffix;
+public:
     keyword();
+
+    bool replacekeyword(string &unit);
     ~keyword();
 };
 

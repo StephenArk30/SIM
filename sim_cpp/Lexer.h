@@ -7,9 +7,9 @@
 
 #include <fstream>
 #include <string>
-#include <map>
 #include "keyword.h"
-#include "operators.h"
+#include "symbols.h"
+#include "variate.h"
 
 using namespace std;
 
@@ -18,9 +18,18 @@ private:
     ifstream ifile;
     ofstream ofile;
     keyword *kw;
-    operators *opts;
-    map<string, string> macro;
-    void preprocessing(string& line);
+    symbols *sybs;
+    variate *var;
+
+    void preprocessing(string &line);
+
+    void replaceunit(string &line);
+
+    bool replacenum(string &num);
+
+    bool hasCommentStart(string &line);
+
+    bool hasCommentEnd(string &line);
 public:
     explicit Lexer(const string& filename);
     ~Lexer();

@@ -1,0 +1,4 @@
+C:\Users\Ark\.CLion2019.1\system\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/cmake-build-debug

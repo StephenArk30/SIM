@@ -1,0 +1,66 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/Cmp.h
+string
+-
+fstream
+-
+map
+-
+
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/Lexer.cpp
+Lexer.h
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/Lexer.h
+regex
+-
+iostream
+-
+sstream
+-
+map
+-
+
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/Lexer.h
+fstream
+-
+string
+-
+keyword.h
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/keyword.h
+symbols.h
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/symbols.h
+variate.h
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/variate.h
+
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/keyword.h
+string
+-
+
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/main.cpp
+iostream
+-
+Lexer.h
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/Lexer.h
+Cmp.h
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/Cmp.h
+
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/symbols.h
+string
+-
+
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/variate.cpp
+variate.h
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/variate.h
+
+/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/variate.h
+iostream
+-
+map
+-
+

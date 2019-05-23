@@ -6,11 +6,9 @@ using namespace std;
 
 int main() {
     cout << "Reading cmp1.c and cmp2.c" << std::endl;
-//    Lexer lexer("../cmp1");
-//    lexer.analyse();
-    Cmp cmp("../cmp1.c", "../cmp2.c", 0.7);
-    cmp.LCS();
-//    cout << "LCS: " << cmp.LCS() << endl;
+    Lexer lexer("../cmp1");
+    lexer.analyse();
+
 
     return 0;
 }

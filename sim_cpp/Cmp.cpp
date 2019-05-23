@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iostream>
 #include <cmath>
+#include <map>
 
 using namespace std;
 
@@ -64,21 +65,21 @@ double Cmp::kgramHash(double copyrate) {
     int linenum = 0;
     int copyline = 0;
     double rate = 0;
-    int i, n;
     file1.seekg(0, ios::beg);
     while (!file1.eof()) {
         getline(file1, line1);
+        map<int, int> hashl1 = encodehash(line1);
         rate = 0;
         file2.seekg(0, ios::beg);
         while (rate < 1 && !file2.eof()) {
             getline(file2, line2);
-            int *hashl1 = encodehash(line1);
-            int *hashl2 = encodehash(line2);
+            map<int, int> hashl2 = encodehash(line2);
+            rate = max(rate, findpublichash(hashl1, hashl2));
         }
         if (rate > copyrate) copyline++;
         linenum++;
     }
-    return 0;
+    return double(copyline) / double(linenum);
 }
 
 string *Cmp::kgram(const string &str) {
@@ -89,26 +90,61 @@ string *Cmp::kgram(const string &str) {
     return strgram;
 }
 
-int Cmp::hash(const string &str) {
+int Cmp::hash(const string &str, int prehash, int preroll) {
     int hashgram = 0;
-    for (int i = 0; i < str.length(); ++i) hashgram += int(str[i] * pow(B, k-i-1));
+    if (prehash < 0) for (int i = 0; i < str.length(); ++i) hashgram += int(str[i] * pow(B, k - i - 1));
+    else hashgram = (prehash - int(preroll * pow(B, k - 1))) * B + str[str.length() - 1];
     return hashgram;
 }
 
-int *Cmp::winnowing(int *hashset) {
-    return nullptr;
+map<int, int> Cmp::winnowing(const int *hashset, int setsize) {
+    map<int, int> hashmap;
+    map<int, int>::iterator iter;
+    int mini = 0, minh = 0;
+    for (int i = 0; i < setsize - w + 1; ++i) {
+        for (int j = 0; j < w; ++j) {
+            if (j == 0) {
+                minh = hashset[i];
+                mini = i;
+            } else if (minh >= hashset[i + j]) {
+                minh = hashset[i + j];
+                mini = i + j;
+            }
+        }
+        iter = hashmap.find(mini);
+        if (iter != hashmap.end())
+            hashmap.insert(pair<int, int>(mini, minh));
+    }
+    return hashmap;
 }
 
-int *Cmp::encodehash(string &str) {
+map<int, int> Cmp::encodehash(string &str) {
     string *strgram = kgram(str);
     int n = str.length();
     int i;
     int *hasharray = new int[n-k+1];
-    for (i = 0; i < n-k+1; ++i)
-        hasharray[i] = hash(strgram[i]);
-    int *gramhash = winnowing(hasharray);
+    for (i = 0; i < n - k + 1; ++i) {
+        if (i == 0) hasharray[i] = hash(strgram[i], -1, -1);
+        else hasharray[i] = hash(strgram[i], hasharray[i - 1], strgram[i - 1][0]);
+    }
+    map<int, int> gramhash = winnowing(hasharray, n - k + 1);
     delete[]strgram;
     delete[]hasharray;
 
     return gramhash;
+}
+
+double Cmp::findpublichash(map<int, int> hashmap1, map<int, int> hashmap2) {
+    map<int, int>::iterator iter1, iter2;
+    int publichash = 0;
+    for (iter1 = hashmap1.begin(); iter1 != hashmap1.end(); iter1++) {
+        for (iter2 = hashmap2.begin(); iter2 != hashmap2.end(); iter2++) {
+            if (iter2->second == iter1->second) {
+                publichash++;
+                break;
+            }
+        }
+    }
+    cout << publichash << " token from A is the same from B\n";
+    return double(publichash) / hashmap1.size();
 }

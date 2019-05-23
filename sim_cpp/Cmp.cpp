@@ -4,8 +4,13 @@
 
 #include "Cmp.h"
 #include <algorithm>
+#include <iostream>
+
+using namespace std;
 
 double Cmp::LCS(string str1, string str2) {
+    if(str1.length() < 3 || str2.length() < 3) return 0;
+    cout << "------\n" << str1 << '\n' << str2 << '\n';
     int **lcstable;
     lcstable = new int*[str1.length()+1];
     int i, j;
@@ -17,9 +22,10 @@ double Cmp::LCS(string str1, string str2) {
             else lcstable[i][j] = max(lcstable[i-1][j], lcstable[i][j-1]);
         }
     }
-    double rate = double(lcstable[str1.length()][str2.length()]) / str1.length();
+    double rate = double(lcstable[str1.length()][str2.length()]) / (str1.length() > 0 ? str1.length() : 1);
     for (i = 0; i < str1.length()+1; i++) delete[]lcstable[i];
     delete[]lcstable;
+    cout << rate << '\n';
 
     return rate;
 }
@@ -40,11 +46,13 @@ double Cmp::LCS() {
     double rate = 0;
     while (getline(file1, line1)) {
         rate = 0;
-        while (getline(file2, line2)){
+        file2.seekg(0, ios::beg);
+        while (rate < 1 && !file2.eof()) {
+            getline(file2, line2);
             rate = max(rate, LCS(line1, line2));
         }
         if (rate > copyrate) copyline++;
         linenum++;
     }
-    return 0;
+    return double(copyline) / double(linenum);
 }

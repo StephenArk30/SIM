@@ -9,6 +9,7 @@
 #include <string>
 #include <map>
 #include "keyword.h"
+#include "operators.h"
 
 using namespace std;
 
@@ -17,11 +18,9 @@ private:
     ifstream ifile;
     ofstream ofile;
     keyword *kw;
+    operators *opts;
     map<string, string> macro;
-    string replace_keyword(const string& line);
-    string preprocessing(const string& line);
-    bool judgeCommentStart(string& line);
-    bool judgeCommentEnd(string& line);
+    void preprocessing(string& line);
 public:
     explicit Lexer(const string& filename);
     ~Lexer();

@@ -27,9 +27,9 @@ bool variate::getmacrovalue(string &key) {
 
 bool variate::replacevar(string &varname) {
     int id = 0;
+    ostringstream varstream;
     for (auto it = varset.begin(); it < varset.end(); it++) {
         if (*it == varname) {
-            ostringstream varstream;
             varstream << "$3," << id << "$";
             varname = varstream.str();
             return true;
@@ -37,5 +37,7 @@ bool variate::replacevar(string &varname) {
         id++;
     }
     varset.push_back(varname);
-    return false;
+    varstream << "$3," << id << "$";
+    varname = varstream.str();
+    return true;
 }

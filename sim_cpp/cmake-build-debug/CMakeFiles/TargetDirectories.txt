@@ -1,3 +1,0 @@
-/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/cmake-build-debug/CMakeFiles/sim_cpp.dir
-/cygdrive/d/Ark/Documents/Homework/Algorithm D&A/lab4/SIM/sim_cpp/cmake-build-debug/CMakeFiles/edit_cache.dir

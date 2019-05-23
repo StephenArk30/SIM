@@ -47,6 +47,7 @@ void Lexer::analyse() {
             replaceunit(line);
             if (line.length() == 0) continue;
             cout << "\t" << line << endl;
+            if (line.length() > 0) ofile << line << endl;
         }
     }
 }
@@ -106,17 +107,29 @@ void Lexer::replaceunit(string &line) {
             return;
         }
 
+        if (unit[0] == '$' && unit[unit.length()-1] == '$') goto outputreplace;
         replaced = var->getmacrovalue(unit);
         replaced = replaced || kw->replacekeyword(unit);
         replaced = replaced || sybs->replacesymbol(unit);
+        replaced = replaced || replacenum(unit);
         if (!replaced) {
             var->replacevar(unit);
         }
-        replacestream << unit << ' ';
+        outputreplace:
+            replacestream << unit << ' ';
     }
     line = replacestream.str();
 }
 
-bool Lexer::replacenum(string &) {
-    return false;
+bool Lexer::replacenum(string &num) {
+    int intnum = 0;
+    for (char i : num) {
+        if (i > '9' || i < '0')
+            return false;
+        intnum = intnum * 10 + (i-'0');
+    }
+    ostringstream numstream;
+    numstream << "$5," << intnum << "$";
+    num = numstream.str();
+    return true;
 }

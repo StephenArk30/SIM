@@ -1,1 +1,0 @@
-/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/sim_cpp.dir/main.cpp.o CMakeFiles/sim_cpp.dir/keyword.cpp.o CMakeFiles/sim_cpp.dir/Lexer.cpp.o CMakeFiles/sim_cpp.dir/Cmp.cpp.o CMakeFiles/sim_cpp.dir/symbols.cpp.o CMakeFiles/sim_cpp.dir/variate.cpp.o  -o sim_cpp.exe -Wl,--out-implib,libsim_cpp.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

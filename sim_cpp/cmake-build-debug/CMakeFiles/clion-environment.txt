@@ -1,4 +1,0 @@
-ToolSet: 3.0.7 (local)@D:\Program Files\cygwin64
-Options: 
-
-Options:

@@ -13,12 +13,17 @@ using namespace std;
 class Cmp {
 private:
     ifstream file1, file2;
-    double copyrate;
-    double LCS(string, string);
+    double LCS(string &str1, string &str2);
+    string* kgram(const string &str);
+    int hash(const string &str);
+    int* winnowing(int *hashset);
+    int* encodehash(string &str);
+    int k; int w; int B;
 public:
-    Cmp(const string&, const string&, const double&);
+    Cmp(const string &filename1, const string &filename2, int kk, int ww, int b);
     ~Cmp();
-    double LCS();
+    double LCS(double copyrate);
+    double kgramHash(double copyrate);
 };
 
 

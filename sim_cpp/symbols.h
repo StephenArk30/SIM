@@ -6,6 +6,8 @@
 #define SIM_CPP_SYMBOLS_H
 
 #include <string>
+#include <stack>
+#include <vector>
 
 using namespace std;
 
@@ -15,8 +17,11 @@ public:
     int del_sybs_num;
     string *gap_sybs;
     string *del_sybs;
+    stack<int> braces;
+    vector<int> funcstart;
+    vector<int> funcend;
 
-    bool replacesymbol(string &symbol);
+    bool replacesymbol(string &symbol, int linenum);
 
     symbols();
 

@@ -5,6 +5,7 @@
 #include "variate.h"
 #include <map>
 #include <sstream>
+#include <iomanip>
 
 variate::variate() {
     macro.empty();
@@ -30,14 +31,14 @@ bool variate::replacevar(string &varname) {
     ostringstream varstream;
     for (auto it = varset.begin(); it < varset.end(); it++) {
         if (*it == varname) {
-            varstream << "$3," << id << "$";
+            varstream << "$3," << setw(4) << setfill('0') << id << "$";
             varname = varstream.str();
             return true;
         }
         id++;
     }
     varset.push_back(varname);
-    varstream << "$3," << id << "$";
+    varstream << "$3," << setw(4) << setfill('0') << id << "$";
     varname = varstream.str();
     return true;
 }

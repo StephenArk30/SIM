@@ -7,12 +7,12 @@
 #include <iostream>
 #include <cmath>
 #include <map>
+#include <fstream>
 
 using namespace std;
 
 double Cmp::LCS(string &str1, string &str2) {
     if(str1.length() < 3 || str2.length() < 3) return 0;
-    cout << "------\n" << str1 << '\n' << str2 << '\n';
     int **lcstable;
     lcstable = new int*[str1.length()+1];
     int i, j;
@@ -33,60 +33,69 @@ double Cmp::LCS(string &str1, string &str2) {
 }
 
 Cmp::Cmp(const string &filename1, const string &filename2, int kk, int ww, int b) : k(kk), w(ww), B(b) {
-    file1.open(filename1); file2.open(filename2);
-}
-
-Cmp::~Cmp() {
-    file1.close(); file2.close();
+    file1 = filename1; file2 = filename2;
 }
 
 double Cmp::LCS(double copyrate) {
     string line1, line2;
-    int linenum = 0;
+    int linenum1 = 0;
+    int linenum2 = 0;
     int copyline = 0;
     double rate = 0;
-    file1.seekg(0, ios::beg);
-    while (!file1.eof()) {
-        getline(file1, line1);
+    ifstream fileA;
+    fileA.open(file1);
+    while (getline(fileA, line1)) {
+        linenum1++;
         rate = 0;
-        file2.seekg(0, ios::beg);
-        while (rate < 1 && !file2.eof()) {
-            getline(file2, line2);
+        linenum2 = 0;
+        ifstream fileB;
+        fileB.open(file2);
+        while (rate < 1 && getline(fileB, line2)) {
+            linenum2++;
+            cout << "------\n" << linenum1 << '\t' << line1 << '\n' << linenum2 << '\t' << line2 << '\n';
             rate = max(rate, LCS(line1, line2));
         }
+        fileB.close();
         if (rate > copyrate) copyline++;
-        linenum++;
     }
-    return double(copyline) / double(linenum);
+    fileA.close();
+    return double(copyline) / double(linenum1);
 }
 
 double Cmp::kgramHash(double copyrate) {
     string line1, line2;
-    int linenum = 0;
+    int linenum1 = 0;
+    int linenum2 = 0;
     int copyline = 0;
     double rate = 0;
-    file1.seekg(0, ios::beg);
-    while (!file1.eof()) {
-        getline(file1, line1);
+    fstream fileA;
+    fileA.open(file1);
+    while (getline(fileA, line1)) {
+        linenum1++;
         map<int, int> hashl1 = encodehash(line1);
         rate = 0;
-        file2.seekg(0, ios::beg);
-        while (rate < 1 && !file2.eof()) {
-            getline(file2, line2);
+        linenum2 = 0;
+        fstream fileB;
+        fileB.open(file2);
+        while (rate < 1 && getline(fileB, line2)) {
+            linenum2++;
+            cout << "------\n" << linenum1 << '\t' << line1 << '\n' << linenum2 << '\t' << line2 << '\n';
             map<int, int> hashl2 = encodehash(line2);
             rate = max(rate, findpublichash(hashl1, hashl2));
         }
         if (rate > copyrate) copyline++;
-        linenum++;
     }
-    return double(copyline) / double(linenum);
+    fileA.close();
+    return double(copyline) / double(linenum1);
 }
 
 string *Cmp::kgram(const string &str) {
     int n = str.length();
     auto *strgram = new string[n-k+1];
-    for(int i = 0; i < n-k+1; ++i)
-        strgram[i] = str.substr(i, k);
+    for(int i = 0; i < n-k+1; ++i) {
+        string temp_string = str.substr(i, k);
+        strgram[i] = temp_string;
+    }
     return strgram;
 }
 
@@ -112,7 +121,7 @@ map<int, int> Cmp::winnowing(const int *hashset, int setsize) {
             }
         }
         iter = hashmap.find(mini);
-        if (iter != hashmap.end())
+        if (iter == hashmap.end())
             hashmap.insert(pair<int, int>(mini, minh));
     }
     return hashmap;
@@ -134,10 +143,12 @@ map<int, int> Cmp::encodehash(string &str) {
     return gramhash;
 }
 
-double Cmp::findpublichash(map<int, int> hashmap1, map<int, int> hashmap2) {
+double Cmp::findpublichash(map<int, int> &hashmap1, map<int, int> &hashmap2) {
     map<int, int>::iterator iter1, iter2;
     int publichash = 0;
+    int hashmap1size = 0;
     for (iter1 = hashmap1.begin(); iter1 != hashmap1.end(); iter1++) {
+        hashmap1size++;
         for (iter2 = hashmap2.begin(); iter2 != hashmap2.end(); iter2++) {
             if (iter2->second == iter1->second) {
                 publichash++;
@@ -145,6 +156,7 @@ double Cmp::findpublichash(map<int, int> hashmap1, map<int, int> hashmap2) {
             }
         }
     }
-    cout << publichash << " token from A is the same from B\n";
-    return double(publichash) / hashmap1.size();
+    double rate = double(publichash) / (hashmap1size ? hashmap1size : 1);
+    cout << publichash << " of " << hashmap1size << " token from A is the same from B, sim rate: " << rate << "\n";
+    return rate;
 }

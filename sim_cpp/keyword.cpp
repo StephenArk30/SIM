@@ -6,6 +6,7 @@
 #include <string>
 #include <cstring>
 #include <sstream>
+#include <iomanip>
 
 keyword::keyword() {
     keywords = new string[32];
@@ -44,7 +45,7 @@ bool keyword::replacekeyword(string &unit) {
     ostringstream kwstream;
     for (int i = 0; i < 32; ++i) {
         if (unit == keywords[i]) {
-            kwstream << "$1," << type[i] << "$";
+            kwstream << "$1," << setw(4) << setfill('0') << type[i] << "$";
             unit = kwstream.str();
             return true;
         }

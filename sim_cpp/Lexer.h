@@ -23,7 +23,7 @@ private:
 
     void preprocessing(string &line);
 
-    void replaceunit(string &line);
+    void replaceunit(string &line, int linenum);
 
     bool replacenum(string &num);
 
